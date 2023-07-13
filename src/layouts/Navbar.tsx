@@ -46,7 +46,7 @@ export default function Navbar() {
               </li>
               <li>
                 <Button variant="link" asChild>
-                  <Link to="/products">Products</Link>
+                  <Link to="/books">Books</Link>
                 </Button>
               </li>
               <li>
@@ -91,12 +91,20 @@ export default function Navbar() {
                       </>
                     )}
                     {user.email && (
-                      <DropdownMenuItem
-                        onClick={handleLogout}
-                        className="cursor-pointer"
-                      >
-                        Logout
-                      </DropdownMenuItem>
+                      <>
+                        <DropdownMenuItem
+                          onClick={handleLogout}
+                          className="cursor-pointer"
+                        >
+                          Logout
+                        </DropdownMenuItem>
+
+                        <Link to="/add-book">
+                          <DropdownMenuItem className="cursor-pointer">
+                            Add Book
+                          </DropdownMenuItem>
+                        </Link>
+                      </>
                     )}
                   </DropdownMenuContent>
                 </DropdownMenu>
