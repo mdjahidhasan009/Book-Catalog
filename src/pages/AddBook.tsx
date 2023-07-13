@@ -10,17 +10,10 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook.ts';
 import { loginUser } from '@/redux/features/user/userSlice.ts';
 import { useNavigate } from 'react-router-dom';
 import {useState} from 'react';
+import {addBook} from "@/redux/features/books/bookApi.ts";
+import {AddBookFormInputs} from "@/interfaces/book.ts";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
-
-interface AddBookFormInputs {
-  title: string;
-  author: string;
-  genre: string;
-  publicationDate: string;
-  imageUrl: string;
-  price: number;
-}
 
 export function AddBook() {
   const {
@@ -37,8 +30,9 @@ export function AddBook() {
 
   const onSubmit = (data: AddBookFormInputs) => {
     console.log(data);
+    const { title, author, genre, publicationDate, image, price } = data;
 
-    dispatch(loginUser({ email: data.email, password: data.password }));
+    dispatch(addBook({ title, author, genre, publicationDate, image, price }));
   };
 
   // useEffect(() => {
@@ -101,29 +95,29 @@ export function AddBook() {
                 Publication Date
               </Label>
               <Input
-                id="date"
+                id="publicationDate"
                 placeholder="Enter date"
                 type="date"
                 // autoCapitalize="none"
                 // autoComplete="email"
                 // autoCorrect="off"
-                {...register('date', { required: 'Date is required' })}
+                {...register('publicationDate', { required: 'Publication date is required' })}
               />
               {errors.publicationDate && <p>{errors.publicationDate.message}</p>}
 
-              <Label className="" htmlFor="imageUrl">
+              <Label className="" htmlFor="image">
                 Image
               </Label>
               <Input
-                id="imageUrl"
+                id="image"
                 placeholder="Enter image url title"
                 type="text"
                 // autoCapitalize="none"
                 // autoComplete="email"
                 // autoCorrect="off"
-                {...register('imageUrl', { required: 'Image url is required' })}
+                {...register('image', { required: 'Image url is required' })}
               />
-              {errors.imageUrl && <p>{errors.imageUrl.message}</p>}
+              {errors.image && <p>{errors.image.message}</p>}
 
               <Label className="" htmlFor="price">
                 Price
