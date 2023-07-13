@@ -25,7 +25,7 @@ export const addBook = createAsyncThunk(
       const data = await response.json();
       return data; // Return the added book data
     } catch (error) {
-      throw new Error(error.message);
+      throw new Error((error as Error).message);;
     }
   }
 );
