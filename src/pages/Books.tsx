@@ -10,11 +10,14 @@ import {
 } from '@/redux/features/books/bookSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IBook } from '@/types/globalTypes';
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import SearchBox from "@/components/ui/SearchBox.tsx";
 
 export default function Books() {
   const [booksData, setBooksData] = useState([]);
+  const searchString = useRef('');
+  const filterGenre = useRef('');
+  const filterPublicationYear = useRef('');
 
   const { data, isLoading, error } = useGetBooksQuery(undefined);
   console.log(data);
@@ -33,14 +36,49 @@ export default function Books() {
     }
   }, [data]);
 
-  const searchBooks = (e: React.ChangeEvent<HTMLInputElement>) => {
-
+  const searchBooks = (e: React.ChangeEvent<HTMLInputElement>, filterCriteria: string) => {
     e.preventDefault();
-    type BookStringKeys = 'title' | 'author' | 'genre';
-    let fields: BookStringKeys[] = ['title', 'author', 'genre'];
-    const filteredBooks = data?.data.filter((book: IBook) =>
-      fields.some((field: BookStringKeys) => book[field].toLowerCase().includes(e.target.value.toLowerCase()))
-    );
+    let enteredString = e.target.value;
+
+    if(filterCriteria === "search") searchString.current = enteredString;
+    if(filterCriteria === "genre") filterGenre.current = enteredString;
+    if(filterCriteria === "year") filterPublicationYear.current = enteredString;
+
+    setBooksData(getFilteredBooks());
+  }
+
+  const getFilteredBooks = () => {
+    let filteredBooks = data?.data;
+    if(searchString.current) {
+      type BookStringKeys = 'title' | 'author' | 'genre';
+      let fields: BookStringKeys[] = ['title', 'author', 'genre'];
+
+      filteredBooks = filteredBooks.filter((book: IBook) =>
+        fields.some((field: BookStringKeys) => book[field].toLowerCase().includes(searchString.current.toLowerCase()))
+      );
+    }
+
+    if(filterGenre.current) {
+      filteredBooks = filteredBooks.filter(book => book.genre.toLowerCase().includes(filterGenre.current.toLowerCase()));
+    }
+
+    if(filterPublicationYear.current) {
+      filteredBooks = filteredBooks.filter(book => getYear(book.publicationDate).toString().toLowerCase()
+        .includes(filterPublicationYear.current.toLowerCase()));
+    }
+    return filteredBooks;
+  }
+
+  function getYear(dateString) {
+    let date = new Date(dateString);
+    return date.getFullYear();
+  }
+
+  function filterByGenre(e: React.ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    let genre = e.target.value;
+    if(genre === "" ) return;
+    const filteredBooks = booksData.filter(book => book.genre.toLowerCase().includes(genre.toLowerCase()));
     setBooksData(filteredBooks);
   }
 
@@ -48,25 +86,27 @@ export default function Books() {
     <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
       <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
         <div>
-          <h1 className="text-2xl uppercase">Availability</h1>
+          <h1 className="text-2xl uppercase">Search Books</h1>
           <div
             onClick={() => dispatch(toggleState())}
             className="flex items-center space-x-2 mt-3"
           >
-            <SearchBox searchBooks={searchBooks} />
+            <SearchBox placeholderText="Search title, author & genre" searchBooks={searchBooks} filterCriteria="search"/>
             {/*<Label htmlFor="in-stock">In stock</Label>*/}
           </div>
         </div>
         <div className="space-y-3 ">
-          <h1 className="text-2xl uppercase">Price Range</h1>
+          <h1 className="text-2xl uppercase">Filters</h1>
           <div className="max-w-xl">
-            <Slider
-              defaultValue={[150]}
-              max={150}
-              min={0}
-              step={1}
-              onValueChange={(value) => handleSlider(value)}
-            />
+            <SearchBox placeholderText="Genre" searchBooks={searchBooks} filterCriteria="genre"/>
+            <SearchBox placeholderText="Year" searchBooks={searchBooks} filterCriteria="year"/>
+            {/*<Slider*/}
+            {/*  defaultValue={[150]}*/}
+            {/*  max={150}*/}
+            {/*  min={0}*/}
+            {/*  step={1}*/}
+            {/*  onValueChange={(value) => handleSlider(value)}*/}
+            {/*/>*/}
           </div>
           {/*<div>From 0$ To {priceRange}$</div>*/}
         </div>
