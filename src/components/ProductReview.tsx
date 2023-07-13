@@ -6,7 +6,7 @@ import { FiSend } from 'react-icons/fi';
 import {
   useGetCommentQuery,
   usePostCommentMutation,
-} from '@/redux/features/products/productApi';
+} from '@/redux/features/books/bookApi.ts';
 
 interface IProps {
   id: string;

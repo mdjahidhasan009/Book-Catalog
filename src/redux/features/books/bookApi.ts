@@ -1,12 +1,12 @@
 import { api } from '@/redux/api/apiSlice';
 
-const productApi = api.injectEndpoints({
+const bookApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getProducts: builder.query({
-      query: () => '/products',
+    getBooks: builder.query({
+      query: () => '/books',
     }),
-    singleProduct: builder.query({
-      query: (id) => `/product/${id}`,
+    singleBook: builder.query({
+      query: (id) => `/book/${id}`,
     }),
     postComment: builder.mutation({
       query: ({ id, data }) => ({
@@ -25,7 +25,7 @@ const productApi = api.injectEndpoints({
 
 export const {
   useGetCommentQuery,
-  useGetProductsQuery,
+  useGetBooksQuery,
   usePostCommentMutation,
-  useSingleProductQuery,
-} = productApi;
+  useSingleBookQuery,
+} = bookApi;
