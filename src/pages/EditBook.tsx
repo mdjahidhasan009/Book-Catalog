@@ -10,7 +10,7 @@ import {useForm} from 'react-hook-form';
 import {useAppDispatch} from '@/redux/hook.ts';
 import {useNavigate, useParams} from 'react-router-dom';
 import {editBook, useSingleBookQuery} from "@/redux/features/books/bookApi.ts";
-import {AddBookFormInputs} from "@/interfaces/book.ts";
+import {AddBookFormInputs, EditBookFormInputs} from "@/interfaces/book.ts";
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
@@ -23,7 +23,7 @@ export function EditBook() {
     handleSubmit,
     formState: { errors },
     reset
-  } = useForm<AddBookFormInputs>();
+  } = useForm<EditBookFormInputs>();
 
   useEffect(() => {
     if(!book) return;
@@ -40,7 +40,7 @@ export function EditBook() {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: AddBookFormInputs) => {
+  const onSubmit = (data: EditBookFormInputs) => {
     console.log(data);
     const { title, author, genre, publicationDate, image, price } = data;
 

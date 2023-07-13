@@ -6,3 +6,7 @@ export interface AddBookFormInputs {
   image: string;
   price: number;
 }
+
+export interface EditBookFormInputs extends AddBookFormInputs {
+  id?: string;
+}

@@ -2,7 +2,7 @@ import { api } from '@/redux/api/apiSlice';
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import {signInWithEmailAndPassword} from "firebase/auth";
 import {auth} from "@/lib/firebase.ts";
-import {AddBookFormInputs} from "@/interfaces/book.ts";
+import {AddBookFormInputs, EditBookFormInputs} from "@/interfaces/book.ts";
 
 export const addBook = createAsyncThunk(
   'book/addBook',
@@ -31,7 +31,7 @@ export const addBook = createAsyncThunk(
 
 export const editBook = createAsyncThunk(
   'book/editBook',
-  async ({ id, title, author, genre, publicationDate, image, price }: AddBookFormInputs) => {
+  async ({ id, title, author, genre, publicationDate, image, price }: EditBookFormInputs) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_backendAPI}/book/${id}`, {
         method: 'PATCH',
