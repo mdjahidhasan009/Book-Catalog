@@ -1,4 +1,4 @@
-import ProductReview from '@/components/ProductReview';
+import BookReview from '@/components/BookReview.tsx';
 import { Button } from '@/components/ui/button';
 import {useDeleteBookMutation, useSingleBookQuery} from '@/redux/features/books/bookApi.ts';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -68,7 +68,7 @@ export default function BookDetails() {
           </div>
         </div>
       </div>
-      <ProductReview id={id!} />
+      <BookReview book={book}/>
     </>
   );
 }

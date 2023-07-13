@@ -7,24 +7,22 @@ import {
   useGetCommentQuery,
   usePostCommentMutation,
 } from '@/redux/features/books/bookApi.ts';
+import {id} from "date-fns/locale";
+import {IBook} from "@/types/globalTypes.ts";
 
 interface IProps {
   id: string;
 }
 
-export default function ProductReview({ id }: IProps) {
+export default function BookReview({ book }: IBook) {
   const [inputValue, setInputValue] = useState<string>('');
 
-  const { data } = useGetCommentQuery(id, {
-    refetchOnMountOrArgChange: true,
-    pollingInterval: 30000,
-  });
+  // const { data } = useGetCommentQuery(id, {
+  //   refetchOnMountOrArgChange: true,
+  //   pollingInterval: 30000,
+  // });
   const [postComment, { isLoading, isError, isSuccess }] =
     usePostCommentMutation();
-
-  console.log(isLoading);
-  console.log(isError);
-  console.log(isSuccess);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -59,13 +57,13 @@ export default function ProductReview({ id }: IProps) {
         </Button>
       </form>
       <div className="mt-10">
-        {data?.comments?.map((comment: string, index: number) => (
+        {book?.reviews?.map((review: string, index: number) => (
           <div key={index} className="flex gap-3 items-center mb-5">
             <Avatar>
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <p>{comment}</p>
+            <p>{review}</p>
           </div>
         ))}
       </div>

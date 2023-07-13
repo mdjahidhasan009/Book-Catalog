@@ -12,12 +12,14 @@ import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IBook } from '@/types/globalTypes';
 import React, {useEffect, useRef, useState} from 'react';
 import SearchBox from "@/components/ui/SearchBox.tsx";
+import {useNavigate} from "react-router-dom";
 
 export default function Books() {
   const [booksData, setBooksData] = useState([]);
   const searchString = useRef('');
   const filterGenre = useRef('');
   const filterPublicationYear = useRef('');
+  const navigate = useNavigate();
 
   const { data, isLoading, error } = useGetBooksQuery(undefined);
   console.log(data);
@@ -84,7 +86,13 @@ export default function Books() {
 
   return (
     <div className="grid grid-cols-12 max-w-7xl mx-auto relative ">
+
       <div className="col-span-3 z mr-10 space-y-5 border rounded-2xl border-gray-200/80 p-5 self-start sticky top-16 h-[calc(100vh-80px)]">
+        <button
+          className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+          onClick={() => navigate('/add-new-book')}>
+          Add Book
+        </button>
         <div>
           <h1 className="text-2xl uppercase">Search Books</h1>
           <div
