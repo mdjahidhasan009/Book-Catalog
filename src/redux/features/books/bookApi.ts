@@ -1,9 +1,12 @@
 import { api } from '@/redux/api/apiSlice';
 
-const bookApi = api.injectEndpoints({
+const bookApi = api.injectEndpoints?.({
   endpoints: (builder) => ({
     getBooks: builder.query({
       query: () => '/books',
+    }),
+    getLastTenBooks: builder.query({
+      query: () => '/books/last-ten',
     }),
     singleBook: builder.query({
       query: (id) => `/book/${id}`,
@@ -26,6 +29,7 @@ const bookApi = api.injectEndpoints({
 export const {
   useGetCommentQuery,
   useGetBooksQuery,
+  useGetLastTenBooksQuery,
   usePostCommentMutation,
   useSingleBookQuery,
 } = bookApi;
