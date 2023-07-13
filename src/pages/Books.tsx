@@ -11,8 +11,11 @@ import {
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IBook } from '@/types/globalTypes';
 import { useEffect, useState } from 'react';
+import SearchBox from "@/components/ui/SearchBox.tsx";
 
 export default function Books() {
+  const [booksData, setBooksData] = useState([]);
+
   const { data, isLoading, error } = useGetBooksQuery(undefined);
   console.log(data);
 
@@ -24,20 +27,19 @@ export default function Books() {
   const handleSlider = (value: number[]) => {
     dispatch(setPriceRange(value[0]));
   };
+  useEffect(() => {
+    if(data) {
+      setBooksData(data?.data);
+    }
+  }, [data]);
 
-  let booksData;
-
-  if (status) {
-    booksData = data?.data?.filter(
-      (item: { status: boolean; price: number }) =>
-        item.status === true && item.price < priceRange
+  const searchBooks = (e) => {
+    e.preventDefault();
+    let fields = ['title', 'author', 'genre'];
+    const filteredBooks = data?.data.filter(book =>
+      fields.some(field => book[field].toLowerCase().includes(e.target.value.toLowerCase()))
     );
-  } else if (priceRange > 0) {
-    booksData = data?.data?.filter(
-      (item: { price: number }) => item.price < priceRange
-    );
-  } else {
-    booksData = data?.data;
+    setBooksData(filteredBooks);
   }
 
   return (
@@ -49,8 +51,8 @@ export default function Books() {
             onClick={() => dispatch(toggleState())}
             className="flex items-center space-x-2 mt-3"
           >
-            <Switch id="in-stock" />
-            <Label htmlFor="in-stock">In stock</Label>
+            <SearchBox searchBooks={searchBooks} />
+            {/*<Label htmlFor="in-stock">In stock</Label>*/}
           </div>
         </div>
         <div className="space-y-3 ">
@@ -64,7 +66,7 @@ export default function Books() {
               onValueChange={(value) => handleSlider(value)}
             />
           </div>
-          <div>From 0$ To {priceRange}$</div>
+          {/*<div>From 0$ To {priceRange}$</div>*/}
         </div>
       </div>
       <div className="col-span-9 grid grid-cols-3 gap-10 pb-20">
