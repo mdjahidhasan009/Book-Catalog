@@ -78,12 +78,12 @@ const bookApi = api.injectEndpoints?.({
         method: 'PATCH',
         body: data,
       }),
-      invalidatesTags: (result, error, { id }) => [{ type: 'Book', id }]
+      invalidatesTags: (result, error, { id }) => [{ type: 'Book', id }],
     }),
-    getComment: builder.query({
-      query: (id) => `/comment/${id}`,
-      providesTags: ['comments'],
-    }),
+    // getComment: builder.query({
+    //   query: (id) => `/comment/${id}`,
+    //   providesTags: ['comments'],
+    // }),
     addBook: builder.mutation({
       query: ({ email, password }) => ({
         url: '/books/addBooks',
@@ -95,7 +95,7 @@ const bookApi = api.injectEndpoints?.({
 });
 
 export const {
-  useGetCommentQuery,
+  // useGetCommentQuery,
   useGetBooksQuery,
   useDeleteBookMutation,
   useGetLastTenBooksQuery,

@@ -4,8 +4,7 @@ import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
 import {
-  useGetCommentQuery,
-  usePostReviewMutation, useSingleBookQuery,
+  usePostReviewMutation,
 } from '@/redux/features/books/bookApi.ts';
 import {id} from "date-fns/locale";
 import {IBook} from "@/types/globalTypes.ts";
