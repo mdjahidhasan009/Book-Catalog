@@ -7,11 +7,34 @@ import {AddBookFormInputs} from "@/interfaces/book.ts";
 export const addBook = createAsyncThunk(
   'book/addBook',
   async ({ title, author, genre, publicationDate, image, price }: AddBookFormInputs) => {
-    console.log(new Date(publicationDate))
-    console.log({ title, author, genre, publicationDate: new Date(publicationDate), image, price })
     try {
       const response = await fetch(`${import.meta.env.VITE_backendAPI}/book`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, author, genre, publicationDate: new Date(publicationDate), image, price }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add book');
+      }
+
+      const data = await response.json();
+      return data; // Return the added book data
+    } catch (error) {
+      throw new Error((error as Error).message);;
+    }
+  }
+);
+
+
+export const editBook = createAsyncThunk(
+  'book/editBook',
+  async ({ id, title, author, genre, publicationDate, image, price }: AddBookFormInputs) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_backendAPI}/book/${id}`, {
+        method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },

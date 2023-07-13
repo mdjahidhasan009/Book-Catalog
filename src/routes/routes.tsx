@@ -9,6 +9,7 @@ import Signup from '@/pages/Signup';
 import BookDetails from '@/pages/BookDetails.tsx';
 import PrivateRoute from './PrivateRoute';
 import {AddBook} from "@/pages/AddBook.tsx";
+import {EditBook} from "@/pages/EditBook.tsx";
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
       {
         path: '/add-book',
         element: <AddBook />
+      },
+      {
+        path: '/edit-book/:id',
+        element: <EditBook />
       },
       {
         path: '/checkout',

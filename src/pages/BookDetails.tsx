@@ -56,7 +56,6 @@ export default function BookDetails() {
           <div className="">
             <Button
               className="mr-10 mt-5"
-
             >
               Edit
             </Button>
