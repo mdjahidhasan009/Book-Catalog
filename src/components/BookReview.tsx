@@ -1,11 +1,11 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import {ChangeEvent, FormEvent, useEffect, useState} from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { Textarea } from './ui/textarea';
 import { FiSend } from 'react-icons/fi';
 import {
   useGetCommentQuery,
-  usePostCommentMutation,
+  usePostReviewMutation, useSingleBookQuery,
 } from '@/redux/features/books/bookApi.ts';
 import {id} from "date-fns/locale";
 import {IBook} from "@/types/globalTypes.ts";
@@ -17,23 +17,24 @@ interface BookReviewProps {
 export default function BookReview({book} : BookReviewProps) {
   const [inputValue, setInputValue] = useState<string>('');
 
-  // const { data } = useGetCommentQuery(id, {
+  // const { data } = useSingleBookQuery(id, {
   //   refetchOnMountOrArgChange: true,
   //   pollingInterval: 30000,
   // });
-  const [postComment, { isLoading, isError, isSuccess }] =
-    usePostCommentMutation();
+  const [postReview, { isLoading, isError, isSuccess }] =
+    usePostReviewMutation();
+
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log(inputValue);
 
     const options = {
-      id: id,
-      data: { comment: inputValue },
+      id: book._id,
+      data: {review: inputValue},
     };
 
-    postComment(options);
+    postReview(options);
     setInputValue('');
   };
 
