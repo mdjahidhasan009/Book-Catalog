@@ -13,7 +13,7 @@ import { useState } from 'react';
 export default function Checkout() {
   const [scheduled, setScheduled] = useState<boolean>(false);
 
-  const { products } = useAppSelector((state) => state.cart);
+  const { books } = useAppSelector((state) => state.cart);
 
   return (
     <div className="flex justify-center items-center h-[calc(100vh-80px)] gap-10 text-primary">
@@ -96,21 +96,21 @@ export default function Checkout() {
         <h1 className="mb-2">Order Summery</h1>
         <div className="border border-gray-300 rounded-md h-[60vh] p-10 flex flex-col">
           <div className="flex-grow  mb-2 space-y-2 overflow-auto">
-            {products.map((product) => (
+            {books.map((book) => (
               <div className="flex justify-between items-center bg-gray-100 p-1 rounded-lg">
                 <div className="flex items-center">
                   <img
-                    src={product.image}
+                    src={book.image}
                     className="h-[82px] rounded-md mr-2"
                     alt=""
                   />
                   <div>
-                    <h1 className="text-lg mb-2">{product.name}</h1>
-                    <p>Price: {product.price}</p>
+                    <h1 className="text-lg mb-2">{book.title}</h1>
+                    <p>Price: {book.price}</p>
                   </div>
                 </div>
                 <div>
-                  <h1 className="text-4xl mr-5">{product.quantity}</h1>
+                  <h1 className="text-4xl mr-5">{book.quantity}</h1>
                 </div>
               </div>
             ))}

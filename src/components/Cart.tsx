@@ -21,7 +21,7 @@ import {
 } from '@/redux/features/cart/cartSlice';
 
 export default function Cart() {
-  const { products, total } = useAppSelector((state) => state.cart);
+  const { books, total } = useAppSelector((state) => state.cart);
   const dispatch = useAppDispatch();
 
   return (
@@ -37,31 +37,31 @@ export default function Cart() {
           <h1>Total: {total.toFixed(2)}</h1>
         </SheetHeader>
         <div className="space-y-5">
-          {products.map((product) => (
+          {books.map((book) => (
             <div
               className="border h-44 p-5 flex justify-between rounded-md"
-              key={product.name}
+              key={book.title}
             >
               <div className="border-r pr-5 shrink-0">
-                <img src={product?.image} alt="" className="h-full" />
+                <img src={book?.image} alt="" className="h-full" />
               </div>
               <div className="px-2 w-full flex flex-col gap-3">
-                <h1 className="text-2xl self-center">{product?.name}</h1>
-                <p>Quantity: {product.quantity}</p>
+                <h1 className="text-2xl self-center">{book?.title}</h1>
+                <p>Quantity: {book.quantity}</p>
                 <p className="text-xl">
-                  Total Price: {(product.price * product.quantity!).toFixed(2)}{' '}
+                  Total Price: {(book.price * book.quantity!).toFixed(2)}{' '}
                   $
                 </p>
               </div>
               <div className="border-l pl-5 flex flex-col justify-between">
-                <Button onClick={() => dispatch(addToCart(product))}>
+                <Button onClick={() => dispatch(addToCart(book))}>
                   <HiOutlinePlus size="20" />
                 </Button>
-                <Button onClick={() => dispatch(removeOne(product))}>
+                <Button onClick={() => dispatch(removeOne(book))}>
                   <HiMinus size="20" />
                 </Button>
                 <Button
-                  onClick={() => dispatch(removeFromCart(product))}
+                  onClick={() => dispatch(removeFromCart(book))}
                   variant="destructive"
                   className="bg-red-500 hover:bg-red-400"
                 >
