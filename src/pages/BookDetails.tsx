@@ -1,11 +1,12 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
 import {useDeleteBookMutation, useSingleBookQuery} from '@/redux/features/books/bookApi.ts';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 export default function BookDetails() {
   const { id } = useParams();
+  let navigate = useNavigate();
   const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
 
   const { data: book, isLoading, error } = useSingleBookQuery(id);
@@ -56,6 +57,7 @@ export default function BookDetails() {
           <div className="">
             <Button
               className="mr-10 mt-5"
+              onClick={() => navigate(`/edit-book/${id}`)}
             >
               Edit
             </Button>
