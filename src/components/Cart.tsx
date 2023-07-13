@@ -34,7 +34,7 @@ export default function Cart() {
       <SheetContent className="overflow-auto relative">
         <SheetHeader>
           <SheetTitle>Cart</SheetTitle>
-          <h1>Total: {total.toFixed(2)}</h1>
+          {/*<h1>Total: {total.toFixed(2)}</h1>*/}
         </SheetHeader>
         <div className="space-y-5">
           {books.map((book) => (

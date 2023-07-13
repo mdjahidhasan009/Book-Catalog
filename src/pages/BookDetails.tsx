@@ -1,10 +1,12 @@
 import ProductReview from '@/components/ProductReview';
 import { Button } from '@/components/ui/button';
-import { useSingleBookQuery } from '@/redux/features/books/bookApi.ts';
+import {useDeleteBookMutation, useSingleBookQuery} from '@/redux/features/books/bookApi.ts';
 import { useParams } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 export default function BookDetails() {
   const { id } = useParams();
+  const [deleteBook, { isLoading: isDeleting }] = useDeleteBookMutation();
 
   const { data: book, isLoading, error } = useSingleBookQuery(id);
   const isoDateString = book?.publicationDate;
@@ -14,6 +16,30 @@ export default function BookDetails() {
     day: "2-digit",
     year: "numeric"
   });
+
+  // Custom function to show confirmation dialog
+  async function showConfirmDialog() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        // Perform delete action here (e.g., delete the file)
+        await deleteFile();
+      }
+    });
+  }
+
+// Function to delete the file (replace this with your actual delete logic)
+  async function  deleteFile() {
+    await deleteBook(id);
+    await Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+  }
 
 
   return (
@@ -28,8 +54,16 @@ export default function BookDetails() {
           <p className="text-xl">Genre: {book?.genre}</p>
           <p className="text-xl">Publication Date: {formattedDate}</p>
           <div className="">
-            <Button className="mr-10 mt-5">Edit</Button>
-            <Button>Delete</Button>
+            <Button
+              className="mr-10 mt-5"
+
+            >
+              Edit
+            </Button>
+            <Button
+              onClick={showConfirmDialog}
+              disabled={isDeleting}
+            >Delete</Button>
           </div>
         </div>
       </div>
