@@ -1,4 +1,11 @@
-const SearchBox = ({ searchBooks }) => {
+import React from "react";
+
+type SearchFunction = (e: React.ChangeEvent<HTMLInputElement>) => void;
+
+interface SearchBoxProps {
+  searchBooks: SearchFunction;
+}
+const SearchBox = ({ searchBooks }: SearchBoxProps) => {
   return (
     <form>
       <label htmlFor="default-search"

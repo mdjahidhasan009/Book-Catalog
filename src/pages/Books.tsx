@@ -10,7 +10,7 @@ import {
 } from '@/redux/features/books/bookSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/hook';
 import { IBook } from '@/types/globalTypes';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchBox from "@/components/ui/SearchBox.tsx";
 
 export default function Books() {
@@ -33,11 +33,13 @@ export default function Books() {
     }
   }, [data]);
 
-  const searchBooks = (e) => {
+  const searchBooks = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     e.preventDefault();
-    let fields = ['title', 'author', 'genre'];
-    const filteredBooks = data?.data.filter(book =>
-      fields.some(field => book[field].toLowerCase().includes(e.target.value.toLowerCase()))
+    type BookStringKeys = 'title' | 'author' | 'genre';
+    let fields: BookStringKeys[] = ['title', 'author', 'genre'];
+    const filteredBooks = data?.data.filter((book: IBook) =>
+      fields.some((field: BookStringKeys) => book[field].toLowerCase().includes(e.target.value.toLowerCase()))
     );
     setBooksData(filteredBooks);
   }
