@@ -8,6 +8,7 @@ import Checkout from '@/pages/Checkout';
 import Signup from '@/pages/Signup';
 import BookDetails from '@/pages/BookDetails.tsx';
 import PrivateRoute from './PrivateRoute';
+import {AddBook} from "@/pages/AddBook.tsx";
 
 const routes = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const routes = createBrowserRouter([
       {
         path: '/book-details/:id',
         element: <BookDetails />,
+      },
+      {
+        path: '/add-book',
+        element: <AddBook />
       },
       {
         path: '/checkout',

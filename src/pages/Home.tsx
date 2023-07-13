@@ -1,7 +1,5 @@
 import { Button } from '@/components/ui/button';
 import banner from '@/assets/images/banner.png';
-import hero from '@/assets/images/hero.png';
-import { Link } from 'react-router-dom';
 import Footer from '@/layouts/Footer';
 import {IBook} from "@/types/globalTypes.ts";
 import BookCard from "@/components/bookCard.tsx";
@@ -51,7 +49,7 @@ export default function Home() {
         {/*  </Button>*/}
         {/*</div>*/}
       </div>
-      <Footer />
+      {/*<Footer />*/}
     </>
   );
 }

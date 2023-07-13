@@ -5,6 +5,7 @@ import { auth } from './lib/firebase';
 import { useAppDispatch } from './redux/hook';
 import { setLoading, setUser } from './redux/features/user/userSlice';
 import { useEffect } from 'react';
+import './assets/index.css';
 
 function App() {
   const dispatch = useAppDispatch();

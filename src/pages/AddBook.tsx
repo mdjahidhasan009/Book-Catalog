@@ -2,97 +2,148 @@
 
 import * as React from 'react';
 
-import { cn } from '@/lib/utils.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Label } from '@/components/ui/label.tsx';
 import { useForm } from 'react-hook-form';
-import { FcGoogle } from 'react-icons/fc';
 import { useAppDispatch, useAppSelector } from '@/redux/hook.ts';
 import { loginUser } from '@/redux/features/user/userSlice.ts';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import {useState} from 'react';
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
-interface LoginFormInputs {
-  email: string;
-  password: string;
+interface AddBookFormInputs {
+  title: string;
+  author: string;
+  genre: string;
+  publicationDate: string;
+  imageUrl: string;
+  price: number;
 }
 
-export function LoginForm({ className, ...props }: UserAuthFormProps) {
+export function AddBook() {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginFormInputs>();
+  } = useForm<AddBookFormInputs>();
 
+  const [date, setDate] = useState();
   const { user, isLoading } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: LoginFormInputs) => {
+  const onSubmit = (data: AddBookFormInputs) => {
     console.log(data);
 
     dispatch(loginUser({ email: data.email, password: data.password }));
   };
 
-  useEffect(() => {
-    if (user.email && !isLoading) {
-      navigate('/');
-    }
-  }, [user.email, isLoading]);
+  // useEffect(() => {
+  //   if (user.email && !isLoading) {
+  //     navigate('/');
+  //   }
+  // }, [user.email, isLoading]);
 
   return (
-    <div className={cn('grid gap-6', className)} {...props}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid gap-2">
-          <div className="grid gap-1">
-            <Label className="sr-only" htmlFor="email">
-              Email
-            </Label>
-            <Input
-              id="email"
-              placeholder="name@example.com"
-              type="email"
-              autoCapitalize="none"
-              autoComplete="email"
-              autoCorrect="off"
-              {...register('email', { required: 'Email is required' })}
-            />
-            {errors.email && <p>{errors.email.message}</p>}
-            <Input
-              id="password"
-              placeholder="your password"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="password"
-              {...register('password', { required: 'Password is required' })}
-            />
-            {errors.password && <p>{errors.password.message}</p>}
+    <div className="full-height">
+      <div className="">
+        <form onSubmit={handleSubmit(onSubmit)} className="">
+          <div className="grid gap-2 w-6/12 mx-auto">
+            <div className="grid gap-4">
+              <Label className="" htmlFor="title">
+                Title
+              </Label>
+              <Input
+                id="title"
+                placeholder="Enter book title"
+                type="text"
+                // autoCapitalize="none"
+                // autoComplete="email"
+                // autoCorrect="off"
+                {...register('title', { required: 'Title is required' })}
+              />
+              {errors.title && <p>{errors.title.message}</p>}
+
+              <Label className="" htmlFor="author">
+                Author
+              </Label>
+              <Input
+                id="author"
+                placeholder="Enter author name"
+                type="text"
+                // autoCapitalize="none"
+                // autoComplete="email"
+                // autoCorrect="off"
+                {...register('author', { required: 'Author is required' })}
+              />
+              {errors.author && <p>{errors.author.message}</p>}
+
+
+              <Label className="" htmlFor="genre">
+                Genre
+              </Label>
+              <Input
+                id="genre"
+                placeholder="Enter genre"
+                type="text"
+                // autoCapitalize="none"
+                // autoComplete="email"
+                // autoCorrect="off"
+                {...register('genre', { required: 'Genre is required' })}
+              />
+              {errors.genre && <p>{errors.genre.message}</p>}
+
+
+              <Label className="" htmlFor="publicationDate">
+                Publication Date
+              </Label>
+              <Input
+                id="date"
+                placeholder="Enter date"
+                type="date"
+                // autoCapitalize="none"
+                // autoComplete="email"
+                // autoCorrect="off"
+                {...register('date', { required: 'Date is required' })}
+              />
+              {errors.publicationDate && <p>{errors.publicationDate.message}</p>}
+
+              <Label className="" htmlFor="imageUrl">
+                Image
+              </Label>
+              <Input
+                id="imageUrl"
+                placeholder="Enter image url title"
+                type="text"
+                // autoCapitalize="none"
+                // autoComplete="email"
+                // autoCorrect="off"
+                {...register('imageUrl', { required: 'Image url is required' })}
+              />
+              {errors.imageUrl && <p>{errors.imageUrl.message}</p>}
+
+              <Label className="" htmlFor="price">
+                Price
+              </Label>
+              <Input
+                id="price"
+                placeholder="Enter price title"
+                type="number"
+                // autoCapitalize="none"
+                // autoComplete="email"
+                // autoCorrect="off"
+                {...register('price', { required: 'Price is required' })}
+              />
+              {errors.price && <p>{errors.price.message}</p>}
+
+            </div>
+            <Button>Add New Book</Button>
           </div>
-          <Button>Login with email</Button>
-        </div>
-      </form>
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
+        </form>
       </div>
-      <Button
-        variant="outline"
-        type="button"
-        className="flex items-center justify-between"
-      >
-        <p>Google</p>
-        <FcGoogle />
-      </Button>
     </div>
   );
 }
