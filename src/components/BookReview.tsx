@@ -10,11 +10,11 @@ import {
 import {id} from "date-fns/locale";
 import {IBook} from "@/types/globalTypes.ts";
 
-interface IProps {
-  id: string;
+interface BookReviewProps {
+  book: IBook;
 }
 
-export default function BookReview({ book }: IBook) {
+export default function BookReview({book} : BookReviewProps) {
   const [inputValue, setInputValue] = useState<string>('');
 
   // const { data } = useGetCommentQuery(id, {
