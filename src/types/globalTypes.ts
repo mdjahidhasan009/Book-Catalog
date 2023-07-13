@@ -3,7 +3,7 @@ export interface IBook {
   title: string;
   author: string;
   genre: string;
-  publicationDate: Date;
+  publicationDate: string;
   reviews: [string];
   image: string;
   price: number;

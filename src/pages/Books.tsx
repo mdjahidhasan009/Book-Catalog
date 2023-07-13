@@ -59,17 +59,17 @@ export default function Books() {
     }
 
     if(filterGenre.current) {
-      filteredBooks = filteredBooks.filter(book => book.genre.toLowerCase().includes(filterGenre.current.toLowerCase()));
+      filteredBooks = filteredBooks.filter((book: IBook) => book.genre.toLowerCase().includes(filterGenre.current.toLowerCase()));
     }
 
     if(filterPublicationYear.current) {
-      filteredBooks = filteredBooks.filter(book => getYear(book.publicationDate).toString().toLowerCase()
+      filteredBooks = filteredBooks.filter((book: IBook) => getYear(book.publicationDate).toString().toLowerCase()
         .includes(filterPublicationYear.current.toLowerCase()));
     }
     return filteredBooks;
   }
 
-  function getYear(dateString) {
+  function getYear(dateString: string) {
     let date = new Date(dateString);
     return date.getFullYear();
   }
@@ -78,7 +78,7 @@ export default function Books() {
     e.preventDefault();
     let genre = e.target.value;
     if(genre === "" ) return;
-    const filteredBooks = booksData.filter(book => book.genre.toLowerCase().includes(genre.toLowerCase()));
+    const filteredBooks = booksData.filter((book: IBook) => book.genre.toLowerCase().includes(genre.toLowerCase()));
     setBooksData(filteredBooks);
   }
 
