@@ -4,7 +4,7 @@ import { Button } from './ui/button';
 import { Link } from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '@/redux/hook';
 import { addToCart } from '@/redux/features/cart/cartSlice';
-import {useAddToWishlistMutation} from "@/redux/features/books/bookApi.ts";
+import {useAddToWishlistMutation, useAddBookToReadingListMutation} from "@/redux/features/books/bookApi.ts";
 import {isErrorResult} from "@/utils/utils.ts";
 
 interface IProps {
@@ -15,6 +15,7 @@ export default function BookCard({ book }: IProps) {
   const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const [addToWishlist, { isLoading, isError }] = useAddToWishlistMutation();
+  const [addBookToReadingList, { isLoading: isLoadingReadingList, isError: isErrorReadingList }] = useAddBookToReadingListMutation();
 
   const isoDateString = book.publicationDate;
   const isoDate = new Date(isoDateString);
@@ -23,9 +24,16 @@ export default function BookCard({ book }: IProps) {
     day: "2-digit",
     year: "numeric"
   });
-  const handleAddBook = async (book: IBook) => {
+  const handleAddBookAtWishList = async (book: IBook) => {
     if (isLoading) return;
-// console.log({ userEmail: user?.email!, bookId: book._id })
+
+    if(!user?.email) {
+      toast({
+        description: 'Please login first',
+      });
+      return;
+    }
+
     try {
       const result = await addToWishlist({ userEmail: user?.email!, bookId: book._id });
       if(isErrorResult(result) && result.error instanceof Error) {
@@ -36,6 +44,36 @@ export default function BookCard({ book }: IProps) {
       }
       toast({
         description: 'Book Added',
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        description: 'Failed to add the book. Please try again',
+      });
+    }
+  };
+
+
+  const handleAddBookAtReadingList = async (book: IBook) => {
+    if (isLoading) return;
+
+    if(!user?.email) {
+      toast({
+        description: 'Please login first',
+      });
+      return;
+    }
+
+    try {
+      const result = await addBookToReadingList({ userEmail: user?.email!, bookId: book._id });
+      if(isErrorResult(result) && result.error instanceof Error) {
+        toast({
+          description: 'Failed to add the book. Please try again',
+        });
+        throw new Error('Failed to add the book. Please try again');
+      }
+      toast({
+        description: 'Book added at reading list',
       });
     } catch (error) {
       console.error(error);
@@ -61,9 +99,15 @@ export default function BookCard({ book }: IProps) {
         {/*  Availability: {book?.status ? 'In stock' : 'Out of stock'}*/}
         {/*</p>*/}
         <p className="text-sm">Price: {book?.price}</p>
-        <Button variant="default" onClick={() => handleAddBook(book)}>
-          Add to wishlist
-        </Button>
+        <div className="flex">
+          <Button variant="default" className="mr-5" onClick={() => handleAddBookAtWishList(book)}>
+            Add to wishlist
+          </Button>
+          <Button variant="default" onClick={() => handleAddBookAtReadingList(book)}>
+            Add to reading list
+          </Button>
+        </div>
+
       </div>
     </div>
   );

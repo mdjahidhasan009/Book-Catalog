@@ -8,13 +8,12 @@ const Wishlist = () => {
   const { user } = useAppSelector((state) => state.user);
   const {data, isLoading, error} = useGetWishlistQuery(user?.email);
   const [removeFromWishlist, { isLoading: isAddingToWishlist, isError }] = useRemoveFromWishlistMutation();
-  console.log(data);
 
 
   const deleteBookFromWishlist = async (bookId: number) => {
     try {
       const result = await removeFromWishlist({ userEmail: user?.email!, bookId: bookId });
-      console.log(result);
+
       if(isErrorResult(result) && result.error instanceof Error) {
         toast({
           description: 'Failed to remove from wishlist. Please try again',

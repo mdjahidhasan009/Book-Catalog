@@ -91,13 +91,11 @@ const bookApi = api.injectEndpoints?.({
     }),
 
 
-    // Fetches the user's wishlist
     getWishlist: builder.query({
       query: (userEmail) => `/wishlist/${userEmail}`,
       providesTags: (result, error, userEmail) => [{ type: 'Wishlist', userEmail }],
     }),
 
-    // Adds a book to the wishlist
     addToWishlist: builder.mutation({
       query: ({ userEmail, bookId }) => ({
         url: `/wishlist`,
@@ -105,19 +103,46 @@ const bookApi = api.injectEndpoints?.({
         body: { userEmail, bookId },
       }),
       invalidatesTags: (result, error, { userEmail }) => [{ type: 'Wishlist', userEmail }],
-      // invalidatesTags: [{ type: 'Wishlist' }],
     }),
 
-    // Removes a book from the wishlist
     removeFromWishlist: builder.mutation({
       query: ({ userEmail, bookId }) => ({
         url: `/wishlist/${userEmail}/${bookId}`,
         method: 'DELETE',
       }),
       invalidatesTags: (result, error, { userEmail }) => [{ type: 'Wishlist', userEmail }],
-
-      // invalidatesTags: [{ type: 'Wishlist', id: 'List' }],
     }),
+
+
+    getReadingList: builder.query({
+      query: (userEmail) => `/readinglist/${userEmail}`,
+      providesTags: (result, error, userEmail) => [{ type: 'ReadingList', userEmail }],
+    }),
+
+    addBookToReadingList: builder.mutation({
+      query: ({ userEmail, bookId }) => ({
+        url: `/readinglist`,
+        method: 'POST',
+        body: { userEmail: userEmail, bookId: bookId },
+      }),
+      invalidatesTags: (result, error, { userEmail }) => [{ type: 'ReadingList', userEmail }],
+    }),
+
+    toggleBookAsFinished: builder.mutation({
+      query: ({ userEmail, bookId, isFinished }) => ({
+        url: `/readinglist`,
+        method: 'PATCH',
+        body: { userEmail, bookId, isFinished: !isFinished }
+      }),
+      invalidatesTags: (result, error, { userEmail }) => [{ type: 'ReadingList', userEmail }],
+    }),
+    removeBookFromReadingList: builder.mutation({
+      query: ({ userEmail, bookId }) => ({
+        url: `/readinglist/${userEmail}/${bookId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, { userEmail }) => [{ type: 'ReadingList', userEmail }],
+    })
   }),
 });
 
@@ -133,4 +158,9 @@ export const {
   useGetWishlistQuery,
   useAddToWishlistMutation,
   useRemoveFromWishlistMutation,
+
+  useGetReadingListQuery,
+  useAddBookToReadingListMutation,
+  useToggleBookAsFinishedMutation,
+  useRemoveBookFromReadingListMutation,
 } = bookApi;

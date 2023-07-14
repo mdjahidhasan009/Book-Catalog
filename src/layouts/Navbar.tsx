@@ -49,11 +49,21 @@ export default function Navbar() {
                   <Link to="/books">Books</Link>
                 </Button>
               </li>
-              <li>
-                <Button variant="link" asChild>
-                  <Link to="/wishlist">Wishlist</Link>
-                </Button>
-              </li>
+              {user.email && (
+                <>
+                  <li>
+                    <Button variant="link" asChild>
+                      <Link to="/wishlist">Wishlist</Link>
+                    </Button>
+                  </li>
+                  <li>
+                    <Button variant="link" asChild>
+                      <Link to="/readinglist">Reading List</Link>
+                    </Button>
+                  </li>
+                </>
+              )}
+
               <li>
                 <Button variant="ghost">
                   <HiOutlineSearch size="25" />

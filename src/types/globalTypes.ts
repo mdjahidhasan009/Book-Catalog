@@ -9,3 +9,7 @@ export interface IBook {
   price: number;
   quantity?: number;
 }
+
+export interface IReadingBook extends IBook{
+  isFinished: boolean
+}
