@@ -109,7 +109,7 @@ export default function Navbar() {
                           Logout
                         </DropdownMenuItem>
 
-                        <Link to="/add-book">
+                        <Link to="/add-new-book">
                           <DropdownMenuItem className="cursor-pointer">
                             Add Book
                           </DropdownMenuItem>
