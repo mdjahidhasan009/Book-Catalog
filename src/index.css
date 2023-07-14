@@ -73,6 +73,14 @@
   }
 }
 
+body {
+  height: 100vh;
+}
+
+#root {
+  height: 100%;
+}
+
 @layer base {
   * {
     @apply border-border;

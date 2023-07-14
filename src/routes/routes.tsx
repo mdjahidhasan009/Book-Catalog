@@ -10,6 +10,7 @@ import BookDetails from '@/pages/BookDetails.tsx';
 import PrivateRoute from './PrivateRoute';
 import {AddBook} from "@/pages/AddBook.tsx";
 import {EditBook} from "@/pages/EditBook.tsx";
+import Wishlist from "@/pages/Wishlist.tsx";
 
 const routes = createBrowserRouter([
   {
@@ -37,10 +38,10 @@ const routes = createBrowserRouter([
         element: <EditBook />
       },
       {
-        path: '/checkout',
+        path: '/wishlist',
         element: (
           <PrivateRoute>
-            <Checkout />,
+            <Wishlist />,
           </PrivateRoute>
         ),
       },

@@ -22,7 +22,6 @@ export default function Books() {
   const navigate = useNavigate();
 
   const { data, isLoading, error } = useGetBooksQuery(undefined);
-  console.log(data);
 
   const { toast } = useToast();
 

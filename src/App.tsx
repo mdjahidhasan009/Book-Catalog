@@ -24,7 +24,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
+    <div className="h-full">
       <Toaster />
       <MainLayout />
     </div>

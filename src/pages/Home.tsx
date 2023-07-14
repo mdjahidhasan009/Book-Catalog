@@ -7,9 +7,9 @@ import {useGetLastTenBooksQuery} from "@/redux/features/books/bookApi.ts";
 
 export default function Home() {
   const { data, isLoading, error } = useGetLastTenBooksQuery(undefined);
-  console.log(data);
+
   let booksData = data?.data || [];
-  console.log(booksData);
+
   return (
     <>
       <div className="flex justify-between items-center h-[calc(100vh-80px)] max-w-7xl mx-auto ">

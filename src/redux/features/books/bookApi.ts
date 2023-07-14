@@ -1,7 +1,5 @@
 import { api } from '@/redux/api/apiSlice';
 import {createAsyncThunk} from "@reduxjs/toolkit";
-import {signInWithEmailAndPassword} from "firebase/auth";
-import {auth} from "@/lib/firebase.ts";
 import {AddBookFormInputs, EditBookFormInputs} from "@/interfaces/book.ts";
 
 export const addBook = createAsyncThunk(
@@ -91,6 +89,35 @@ const bookApi = api.injectEndpoints?.({
         body: { email, password },
       }),
     }),
+
+
+    // Fetches the user's wishlist
+    getWishlist: builder.query({
+      query: (userEmail) => `/wishlist/${userEmail}`,
+      providesTags: (result, error, userEmail) => [{ type: 'Wishlist', userEmail }],
+    }),
+
+    // Adds a book to the wishlist
+    addToWishlist: builder.mutation({
+      query: ({ userEmail, bookId }) => ({
+        url: `/wishlist`,
+        method: 'POST',
+        body: { userEmail, bookId },
+      }),
+      invalidatesTags: (result, error, { userEmail }) => [{ type: 'Wishlist', userEmail }],
+      // invalidatesTags: [{ type: 'Wishlist' }],
+    }),
+
+    // Removes a book from the wishlist
+    removeFromWishlist: builder.mutation({
+      query: ({ userEmail, bookId }) => ({
+        url: `/wishlist/${userEmail}/${bookId}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: (result, error, { userEmail }) => [{ type: 'Wishlist', userEmail }],
+
+      // invalidatesTags: [{ type: 'Wishlist', id: 'List' }],
+    }),
   }),
 });
 
@@ -102,4 +129,8 @@ export const {
   usePostReviewMutation,
   useSingleBookQuery,
   useAddBookMutation,
+
+  useGetWishlistQuery,
+  useAddToWishlistMutation,
+  useRemoveFromWishlistMutation,
 } = bookApi;
